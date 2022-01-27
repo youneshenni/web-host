@@ -3,8 +3,6 @@
   containers.podman.podman_container:
     name: static
     image: docker.io/nginx
-    publish:
-      - 80:80
     env:
       VIRTUAL_HOST: "static.younes"
 - name: Add instance to Systemd
