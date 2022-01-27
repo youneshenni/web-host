@@ -1,8 +1,10 @@
 - name: Install Podman
+  become: yes
   dnf:
     name: podman
     state: latest
 - name: Setup NGiNX reverse proxy
+  become: yes
   containers.podman.podman_container:
     name: proxy
     image: jwilder/nginx-proxy
@@ -14,6 +16,7 @@
       - /var/run/docker.sock:/tmp/docker.sock
       - /index/certs:/etc/nginx/certs
 - name: Add NGiNX to Systemd
+  become: yes
   vars:
     name: proxy
     description: NGiNX Reverse Proxy Container
@@ -23,3 +26,4 @@
     owner: root
     group: root
     mode: 644
+

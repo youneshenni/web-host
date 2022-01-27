@@ -1,4 +1,5 @@
 - name: Setup HTTP instance
+  become: yes
   containers.podman.podman_container:
     name: static
     image: nginx
@@ -7,6 +8,7 @@
     env:
       VIRTUAL_HOST: "static.younes"
 - name: Add instance to Systemd
+  become: yes
   vars:
     name: instance
     description: Test HTTP instance
