@@ -1,7 +1,9 @@
 - name: Install Podman
   become: yes
   dnf:
-    name: podman
+    name:
+      - podman
+      - podman-docker
     state: latest
 - name: Launch Podman socket
   become: yes
@@ -26,7 +28,7 @@
       - 80:80
       - 443:443
     volume:
-      - /run/podman/podman.sock:/tmp/docker.sock:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
       - /index/certs:/etc/nginx/certs
 - name: Add NGiNX to Systemd
   become: yes
