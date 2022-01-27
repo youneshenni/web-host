@@ -1,0 +1,19 @@
+- name: Setup HTTP instance
+  containers.podman.podman_container:
+    name: static
+    image: nginx
+    publish:
+      - 80:80
+    env:
+      VIRTUAL_HOST: "static.younes"
+- name: Add instance to Systemd
+  vars:
+    name: instance
+    description: Test HTTP instance
+  template:
+    src: podman.service.j2
+    dest: /etc/systemd/system/test.service
+    owner: root
+    group: root
+    mode: 644
+

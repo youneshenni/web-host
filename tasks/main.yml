@@ -1,0 +1,4 @@
+- name: Setup NGiNX reverse proxy
+  import_tasks: setup.yml
+- name: Add a new HTTP server
+  import_tasks: instance.yml
