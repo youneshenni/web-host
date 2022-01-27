@@ -26,7 +26,7 @@
       - 80:80
       - 443:443
     volume:
-      - /run/podman/podman.sock:/tmp/docker.sock
+      - /run/podman/podman.sock:/tmp/docker.sock:ro
       - /index/certs:/etc/nginx/certs
 - name: Add NGiNX to Systemd
   become: yes
