@@ -9,6 +9,13 @@
     name: podman.socket
     state: started
     enabled: yes
+- name: Create certificates folder
+  become: yes
+  file:
+    path: /index/certs
+    mode: '0755'
+    state: directory
+    owner: root
 - name: Setup NGiNX reverse proxy
   become: yes
   containers.podman.podman_container:
