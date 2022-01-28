@@ -6,6 +6,8 @@
     env:
       VIRTUAL_HOST: "static.younes"
       LETSENCRYPT_HOST: "static.younes"
+    expose:
+      - 80
 - name: Add instance to Systemd
   become: yes
   vars:
