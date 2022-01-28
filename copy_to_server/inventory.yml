@@ -1,0 +1,4 @@
+all:
+  hosts:
+    siraj-dev.tk:
+      ansible_user: root

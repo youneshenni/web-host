@@ -1,0 +1,55 @@
+- name: Deploy application
+  hosts: all
+  tasks:
+    - name: Get client files list
+      find:
+        paths: "/mnt/c/Users/Younes Henni/web/flexy/client"
+        recurse: no
+        file_type: any
+        patterns: "public,components,pages,reducers,server,src,*.*"
+      register: client_files
+      delegate_to: 127.0.0.1
+    - name: Get server files list
+      find:
+        paths: "/mnt/c/Users/Younes Henni/web/flexy"
+        recurse: no
+        file_type: any
+        patterns: "public,pages,server,*.*"
+      register: server_files
+      delegate_to: 127.0.0.1
+    # - name: Copy client files
+    #   copy:
+    #     src: "{{ item.path }}"
+    #     dest: "/web/flexy/main/client"
+    #     owner: root
+    #   with_items: "{{ client_files.files }}"
+    - name: Copy server files
+      copy:
+        src: "{{item.path}}"
+        dest: "/web/flexy/main"
+        owner: root
+      with_items: "{{server_files.files}}"
+    - name: Install client dependencies
+      command: 
+        cmd: "yarn"
+        chdir: /web/flexy/main/client
+    - name: Install server dependencies
+      command: 
+        cmd: "yarn"
+        chdir: /web/flexy/main
+    - name: Build client
+      command:
+        cmd: "yarn build"
+        chdir: /web/flexy/main/client
+    - name: Build server
+      command:
+        cmd: "yarn build"
+        chdir: /web/flexy/main
+    - name: Restart server service
+      systemd:
+        state: restarted
+        name: flexy
+    - name: Restart client service
+      systemd:
+        state: restarted
+        name: flexy_client
