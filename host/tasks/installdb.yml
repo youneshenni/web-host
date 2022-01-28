@@ -1,0 +1,9 @@
+- name: Install MariaDB
+  dnf:  
+    name: mariadb-server
+    state: latest
+- name: Setup MariaDB Service
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes
