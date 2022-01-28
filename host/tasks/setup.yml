@@ -18,6 +18,20 @@
     mode: '0755'
     state: directory
     owner: root
+- name: Create virtual hosts folder
+  become: yes
+  file:
+    path: /index/vhost
+    mode: '0755'
+    state: directory
+    owner: root
+- name: Create static HTML folder
+  become: yes
+  file:
+    path: /index/html
+    mode: '0755'
+    state: directory
+    owner: root
 - name: Setup NGiNX reverse proxy
   become: yes
   containers.podman.podman_container:
@@ -30,6 +44,21 @@
     volume:
       - /var/run/docker.sock:/tmp/docker.sock:z
       - /index/certs:/etc/nginx/certs
+      - /index/vhost:/etc/nginx/vhost.d
+      - /index/html:/usr/share/nginx/html
+- name: "ACME Companion: Automatic certificate generation"
+  become: yes
+  containers.podman.podman_container:
+    name: acme
+    image: docker.io/nginxproxy/acme-companion
+    volumes_from:
+      - proxy
+    volume:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /index/acme:/etc/acme.sh
+    env:
+      DEFAULT_EMAIL: "{{ email }}"
+
 - name: Add NGiNX to Systemd
   become: yes
   vars:

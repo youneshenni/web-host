@@ -5,6 +5,7 @@
     image: docker.io/nginx
     env:
       VIRTUAL_HOST: "static.younes"
+      LETSENCRYPT_HOST: "static.younes"
 - name: Add instance to Systemd
   become: yes
   vars:
