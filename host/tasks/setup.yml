@@ -32,6 +32,13 @@
     mode: '0755'
     state: directory
     owner: root
+- name: Create static ACME folder
+  become: yes
+  file:
+    path: /index/acme
+    mode: '0755'
+    state: directory
+    owner: root
 - name: Setup NGiNX reverse proxy
   become: yes
   containers.podman.podman_container:
