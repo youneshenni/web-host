@@ -77,4 +77,10 @@
     owner: root
     group: root
     mode: 644
+- name: Enable service
+  become: yes
+  systemd:
+    name: proxy.service
+    state: started
+    enabled: yes
 
