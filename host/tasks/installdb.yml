@@ -1,9 +1,11 @@
-- name: Install MariaDB
-  dnf:  
-    name: mariadb-server
-    state: latest
-- name: Setup MariaDB Service
-  systemd:
-    name: mariadb
-    state: started
-    enabled: yes
+- name: Install MySQL
+  containers.podman.podman_container:
+    name: mysql_db
+    image: docker.io/mysql
+    env:
+      MYSQL_ROOT_PASSWORD: "{{ ROOT_PASSWORD }}"
+      MYSQL_DATABASE: "{{ DB_NAME }}"
+      MYSQL_USER: "{{ DB_USER }}"
+      MYSQL_PASSWORD: "{{ DB_PASSWORD }}"
+    publish:
+      - 3306
