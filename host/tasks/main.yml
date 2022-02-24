@@ -1,13 +1,12 @@
-# - name: Check if system has swap
-#   shell: free -h | awk /Swap/ | awk '{print $2}'
-#   register: swap_exists
-# - name: Add SWAP if it doesn't exist
-#   include_tasks: swap.yml
-#   when: swap_exists is not 
-# - name: Setup NGiNX reverse proxy
-#   import_tasks: setup.yml
-# - name: Add a new HTTP server
-#   import_tasks: instance.yml
-
+- name: Check if system has swap
+  shell: free -h | awk /Swap/ | awk '{print $2}'
+  register: swap_exists
+- name: Add SWAP if it doesn't exist
+  include_tasks: swap.yml
+  when: swap_exists is not 
+- name: Setup NGiNX reverse proxy
+  import_tasks: setup.yml
+- name: Add a new HTTP server
+  import_tasks: instance.yml
 - name: generate passwords
   import_tasks: password.yml
